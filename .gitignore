@@ -1,3 +1,1123 @@
+from tkinter import *
+import os
+
+if not os.path.isdir('Questions'):
+    os.mkdir('Questions')
+
+def saved2():
+    global screen8
+    global screene
+    screen8 = Toplevel(screen)
+    screen8.title("Saved")
+    screen8.geometry("200x60")
+    Label(screen8, text = "Your reply was saved", fg = "green").pack()
+    btn = Button(screen8, text = "ok", command = lambda :[delete_(screen8), delete_(screene)])
+    btn.focus_set()
+    btn.bind("<Return>", comb8d)
+    btn.pack()
+
+def saved():
+    global screen8
+    screen8 = Toplevel(screen)
+    screen8.title("Saved")
+    screen8.geometry("200x60")
+    Label(screen8, text = "Saved", fg = "green").pack()
+    btn = Button(screen8, text = "ok", command = lambda :[delete_(screen8), delete_(screend)])
+    btn.focus_set()
+    btn.bind("<Return>", comb8d)
+    btn.pack()
+
+def comb8d(event):
+    screen8.destroy()
+    screend.destroy()
+
+def equal():
+    for i in range(0, 12):
+        a[i] = 13
+
+def Var():
+    global V
+    if a[0] == 0:
+        V = b0
+    elif a[1] == 1:
+        V = b1
+    elif a[2] == 2:
+        V = b2
+    elif a[3] == 3:
+        V = b3
+    elif a[4] == 4:
+        V = b4
+    elif a[5] == 5:
+        V = b5
+    elif a[6] == 6:
+        V = b6
+    elif a[7] == 7:
+        V = b7
+    elif a[8] == 8:
+        V = b8
+    elif a[9] == 9:
+        V = b9
+    elif a[10] == 10:
+        V = b10
+    elif a[11] == 11:
+        V = b11
+
+    return V
+
+
+def save():
+
+    Var()
+    #notes = raw_q.get()
+    notes = text_box.get(1.0, END)
+    directory = 'Questions/' + V
+    filename = raw_d.get()
+    file_path = os.path.join(directory, filename)
+    if filename == "":
+        errorx()
+    elif notes == "\n" or notes == "":
+        error11()
+    else:
+        try:
+            data = open(file_path, "r")
+            error4()
+        except FileNotFoundError:
+            if not os.path.isdir(directory):
+                os.mkdir(directory)
+            data = open(file_path, "w")
+            data.write(filename + "\n")
+            if S == 0:
+                data.write(" Q: "+ notes + "\n" + "\n" + "\n")
+            elif S == 1:
+                data.write(N + " Q: " + notes + "\n" + "\n" + "\n")
+            data.close()
+
+            saved()
+
+
+def error11():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="You can't let a question empty ", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def errorx():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="Insert question title! ", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def combd7s(event):
+    save()
+    delete_(screen7)
+
+
+def ask():
+    Var()
+    global screen7
+    global text_box
+    global xx
+    text_box = StringVar()
+    screen7 = Toplevel(screen)
+    screen7.title("Ask a question on " +V)
+    screen7.geometry("400x270")
+    Label(screen7, text="").pack()
+    Label(screen7, text = "Question Title").pack()
+    a = Entry(screen7, textvariable = raw_d)
+    a.focus_set()
+    a.pack()
+    Label(screen7, text ="Write down a question ").pack()
+    text_box = Text(screen7, width = 40, height = 4)
+    text_box.pack()
+    Label(screen7, text="Show as default").pack()
+    Button(screen7, text ="Hide/Show your name when ask", command = lambda : [switch(), h_s()]).pack()
+    Label(screen7, text="").pack()
+    Button(screen7, text = "Save", command = lambda:[save(), delete_(screen7)]).pack()
+    xx = Label(screen7, text="", fg="green", font=("Calibri, 11"))
+
+
+def switch():
+    global S
+    if S == 0:
+        S = 1
+    elif S == 1:
+        S = 0
+
+    return S
+
+def h_s():
+    if S == 1:
+       xx['text'] = "Show"
+    elif S == 0:
+      xx['text'] = "Hide"
+
+    xx.pack()
+
+def q_a():
+     global g
+     global text_box1
+     global screene
+     text_box1 = StringVar()
+     g = StringVar()
+     q3 = my_listbox.get(ANCHOR)
+     screene = Toplevel(screen)
+     screene.title("Reply to " + q3 + ":")
+     screene.geometry("350x150")
+     Label(screene, text = "Reply down below:").pack()
+     text_box1 = Text(screene, width=40, height=4)
+     text_box1.pack()
+     Label(screene, text = "").pack()
+     Button(screene, text="OK",width = 5,borderwidth=4,  command=lambda: [q_a1()]).pack()
+
+def q_a1():
+    #g = raw_e.get()
+    g = text_box1.get(1.0, END)
+    if g == "\n" or g == "":
+        error10()
+    else:
+        try:
+            q3 = my_listbox.get(ANCHOR)
+            directory = 'Questions/' + V + '/' + q3
+            with open(directory, 'a') as qf:
+                qf.write("\n" + N + " A: " + g + "\n")
+                saved2()
+        except PermissionError:
+            error8()
+
+def sure():
+    global screenec
+    screenec = Toplevel(screen)
+    screenec.title("Are you sure?")
+    screenec.focus_set()
+    q2 = my_listbox.get(ANCHOR)
+    label_1 = Label(screenec, text="You want to delete " + q2 + " question?", fg="red")
+    button_1 = Button(screenec, text="NO",width = 5, command=lambda: delete_(screenec))
+    button_2 = Button(screenec, text="YES",width = 5, command=lambda:[delete_(screenec), delete_q1()])
+
+    button_1.grid(row=1, column=1)
+    button_2.grid(row=1, column=3)
+    label_1.grid(row=0, column=2)
+def delete_q1():
+    try:
+        q2 = my_listbox.get(ANCHOR)
+        os.remove('Questions/' + V + '/' + q2)
+        screenq = Toplevel(screen)
+        screenq.title(V)
+        screenq.minsize(300,50)
+        Label(screenq, text= q2+ " deleted").pack()
+        Button(screenq, text = "ok", command = lambda:[delete_(screenq),delete_(screen6), view_q()]).pack()
+    except PermissionError:
+        error8()
+
+
+def view_q1():
+    try:
+        q1 = my_listbox.get(ANCHOR)
+        que = open('Questions/'+V+'/' +q1, "r")
+        que1 = que.read()
+        screenq = Toplevel(screen)
+        screenq.title(V)
+        screenq.minsize(300, 50)
+        Label(screenq, text = que1).pack()
+    except PermissionError:
+        error8()
+
+def view_q():
+    Var()
+    if not os.path.isdir('Questions/' +V):
+        os.mkdir('Questions/' +V)
+    global screen6
+    screen6 = Toplevel(screen)
+    screen6.title(V + " questions:")
+    screen6.geometry("400x400")
+    screen6.focus_set()
+    Label(screen6, text = "Questions:").pack()
+    Label(screen6, text = "Select a question from below:").pack()
+    global my_list
+    my_frame = Frame(screen6)
+    my_scrollbar = Scrollbar(my_frame, orient=VERTICAL)
+    x = len(os.listdir('Questions/' +V))
+    global my_listbox
+    my_listbox = Listbox(my_frame, width=50, yscrollcommand=my_scrollbar.set)
+    my_listbox.config(width=30, height=10)
+    my_scrollbar.config(command=my_listbox.yview)
+    my_scrollbar.pack(side=RIGHT, fill=Y)
+    my_frame.pack()
+    my_listbox.pack(pady=15)
+    for j in range(0, x):
+        file = os.listdir('Questions/' +V)[j]
+        my_listbox.insert(END, file)
+
+    my_button1 = Button(screen6, text="View", command=view_q1)
+    my_button1.pack(pady=10)
+    if A == 1:
+        my_button2 = Button(screen6, text = "Delete", command = sure)
+        my_button2.pack(pady =10)
+        my_button3 = Button(screen6, text = "Reply", command =q_a)
+        my_button3.pack(pady =10)
+
+def combef0a(event):
+    equal()
+    funct(0)
+    ask()
+
+def combef1a(event):
+    equal()
+    funct(1)
+    ask()
+
+def combef2a(event):
+    equal()
+    funct(2)
+    ask()
+
+def combef3a(event):
+    equal()
+    funct(3)
+    ask()
+
+
+def combef4a(event):
+    equal()
+    funct(4)
+    ask()
+
+
+def combef5a(event):
+    equal()
+    funct(5)
+    ask()
+
+
+def combef6a(event):
+    equal()
+    funct(6)
+    ask()
+
+
+def combef7a(event):
+    equal()
+    funct(7)
+    ask()
+
+
+def combef8a(event):
+    equal()
+    funct(8)
+    ask()
+
+def combef9a(event):
+    equal()
+    funct(9)
+    ask()
+
+def combef10a(event):
+    equal()
+    funct(10)
+    ask()
+
+def combef11a(event):
+    equal()
+    funct(11)
+    ask()
+
+def combef0v(event):
+    equal()
+    funct(0)
+    view_q()
+
+def combef1v(event):
+    equal()
+    funct(1)
+    view_q()
+
+def combef2v(event):
+    equal()
+    funct(2)
+    view_q()
+
+def combef3v(event):
+    equal()
+    funct(3)
+    view_q()
+
+def combef4v(event):
+    equal()
+    funct(4)
+    view_q()
+
+def combef5v(event):
+    equal()
+    funct(5)
+    view_q()
+
+def combef6v(event):
+    equal()
+    funct(6)
+    view_q()
+
+def combef7v(event):
+    equal()
+    funct(7)
+    view_q()
+
+def combef8v(event):
+    equal()
+    funct(8)
+    view_q()
+
+def combef9v(event):
+    equal()
+    funct(9)
+    view_q()
+
+def combef10v(event):
+    equal()
+    funct(10)
+    view_q()
+
+def combef11v(event):
+    equal()
+    funct(11)
+    view_q()
+
+
+def funct(i):
+    a[i] = i
+
+def down2(event):
+    button_1.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_2.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_3.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_4.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_5.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_6.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_7.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_8.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_9.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_10.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_11.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_12.config(borderwidth=2, bg = 'SystemButtonFace')
+    if screend2.focus_get() == button_1:
+         button_4.focus_set()
+         button_4.config(borderwidth = 4, bg = 'cyan')
+    elif screend2.focus_get() == button_2:
+         button_5.focus_set()
+         button_5.config(borderwidth = 4, bg = 'cyan')
+    elif screend2.focus_get() == button_3:
+         button_6.focus_set()
+         button_6.config(borderwidth = 4, bg = 'cyan')
+    elif screend2.focus_get() == button_4:
+         button_7.focus_set()
+         button_7.config(borderwidth = 4, bg = 'cyan')
+    elif screend2.focus_get() == button_5:
+        button_8.focus_set()
+        button_8.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_6:
+        button_9.focus_set()
+        button_9.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_7:
+        button_10.focus_set()
+        button_10.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_8:
+        button_11.focus_set()
+        button_11.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_9:
+        button_12.focus_set()
+        button_12.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_10:
+        button_1.focus_set()
+        button_1.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_11:
+        button_2.focus_set()
+        button_2.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_12:
+        button_3.focus_set()
+        button_3.config(borderwidth=4, bg='cyan')
+    return "break"
+
+def down(event):
+    button_1.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_2.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_3.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_4.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_5.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_6.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_7.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_8.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_9.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_10.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_11.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_12.config(borderwidth=2, bg = 'SystemButtonFace')
+    if screend.focus_get() == button_1:
+         button_4.focus_set()
+         button_4.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_2:
+         button_5.focus_set()
+         button_5.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_3:
+         button_6.focus_set()
+         button_6.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_4:
+         button_7.focus_set()
+         button_7.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_5:
+        button_8.focus_set()
+        button_8.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_6:
+        button_9.focus_set()
+        button_9.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_7:
+        button_10.focus_set()
+        button_10.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_8:
+        button_11.focus_set()
+        button_11.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_9:
+        button_12.focus_set()
+        button_12.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_10:
+        button_1.focus_set()
+        button_1.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_11:
+        button_2.focus_set()
+        button_2.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_12:
+        button_3.focus_set()
+        button_3.config(borderwidth=4, bg='cyan')
+    return "break"
+
+def up2(event):
+    button_1.config(borderwidth=2, bg='SystemButtonFace')
+    button_2.config(borderwidth=2, bg='SystemButtonFace')
+    button_3.config(borderwidth=2, bg='SystemButtonFace')
+    button_4.config(borderwidth=2, bg='SystemButtonFace')
+    button_5.config(borderwidth=2, bg='SystemButtonFace')
+    button_6.config(borderwidth=2, bg='SystemButtonFace')
+    button_7.config(borderwidth=2, bg='SystemButtonFace')
+    button_8.config(borderwidth=2, bg='SystemButtonFace')
+    button_9.config(borderwidth=2, bg='SystemButtonFace')
+    button_10.config(borderwidth=2, bg='SystemButtonFace')
+    button_11.config(borderwidth=2, bg='SystemButtonFace')
+    button_12.config(borderwidth=2, bg='SystemButtonFace')
+    if screend2.focus_get() == button_1:
+        button_10.focus_set()
+        button_10.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_2:
+        button_11.focus_set()
+        button_11.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_3:
+        button_12.focus_set()
+        button_12.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_4:
+        button_1.focus_set()
+        button_1.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_5:
+        button_2.focus_set()
+        button_2.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_6:
+        button_3.focus_set()
+        button_3.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_7:
+        button_4.focus_set()
+        button_4.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_8:
+        button_5.focus_set()
+        button_5.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_9:
+        button_6.focus_set()
+        button_6.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_10:
+        button_7.focus_set()
+        button_7.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_11:
+        button_8.focus_set()
+        button_8.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_12:
+        button_9.focus_set()
+        button_9.config(borderwidth=4, bg='cyan')
+    return "break"
+
+def up(event):
+    button_1.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_2.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_3.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_4.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_5.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_6.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_7.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_8.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_9.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_10.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_11.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_12.config(borderwidth=2, bg = 'SystemButtonFace')
+    if screend.focus_get() == button_1:
+         button_10.focus_set()
+         button_10.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_2:
+         button_11.focus_set()
+         button_11.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_3:
+         button_12.focus_set()
+         button_12.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_4:
+         button_1.focus_set()
+         button_1.config(borderwidth = 4, bg = 'cyan')
+    elif screend.focus_get() == button_5:
+        button_2.focus_set()
+        button_2.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_6:
+        button_3.focus_set()
+        button_3.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_7:
+        button_4.focus_set()
+        button_4.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_8:
+        button_5.focus_set()
+        button_5.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_9:
+        button_6.focus_set()
+        button_6.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_10:
+        button_7.focus_set()
+        button_7.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_11:
+        button_8.focus_set()
+        button_8.config(borderwidth=4, bg='cyan')
+    elif screend.focus_get() == button_12:
+        button_9.focus_set()
+        button_9.config(borderwidth=4, bg='cyan')
+    return "break"
+
+def domeins(event):
+    global S
+    S = IntVar()
+    S = 1
+    global raw_d
+    raw_d = StringVar()
+    global raw_q
+    raw_q = StringVar()
+    global screend
+    screend = Toplevel(screen)
+    screend.title("Domeins")
+    screend.focus_set()
+
+    global b1
+    global b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b0
+    global button_1, button_2, button_3, button_4, button_5, button_6, button_7, button_8, button_9, button_10, button_11, button_12
+    b0 = "Medicine"
+    b1 = "Engineering"
+    b2 = "Labor protection"
+    b3 = "Management"
+    b4 = "Legislation"
+    b5 = "Public administration"
+    b6 = "Marketing"
+    b7 = "Human Resources"
+    b8 = "Tourism"
+    b9 = "Informatics"
+    b10 = "Sports - Esports"
+    b11 = "Others"
+
+    button_1 = Button(screend, text =b0, height = "5", width = "17", command = lambda:[equal(),funct(0),ask()])
+    button_2 = Button(screend, text=b1, height = "5", width ="17", command = lambda: [equal(), funct(1),ask()])
+    button_3 = Button(screend, text=b2, height = "5", width ="17", command = lambda: [equal(), funct(2),ask()])
+    button_4 = Button(screend, text=b3, height = "5", width ="17", command = lambda: [equal(), funct(3),ask()])
+    button_5 = Button(screend, text=b4, height = "5", width ="17", command = lambda: [equal(), funct(4),ask()])
+    button_6 = Button(screend, text=b5, height = "5", width ="17", command = lambda: [equal(), funct(5),ask()])
+    button_7 = Button(screend, text=b6, height = "5", width ="17", command = lambda: [equal(), funct(6),ask()])
+    button_8 = Button(screend, text=b7, height = "5", width ="17", command = lambda: [equal(), funct(7),ask()])
+    button_9 = Button(screend, text=b8, height = "5", width ="17", command = lambda: [equal(), funct(8),ask()])
+    button_10 = Button(screend, text=b9, height = "5", width ="17", command = lambda: [equal(), funct(9),ask()])
+    button_11 = Button(screend, text=b10, height = "5", width ="17", command = lambda: [equal(), funct(10),ask()])
+    button_12 = Button(screend, text=b11, height = "5", width ="17", command = lambda: [equal(), funct(11),ask()])
+
+    button_1.grid(row=0, column =0 )
+    button_2.grid(row=0, column=1)
+    button_3.grid(row=0, column=2)
+    button_4.grid(row=1, column=0)
+    button_5.grid(row=1, column=1)
+    button_6.grid(row=1, column=2)
+    button_7.grid(row=2, column=0)
+    button_8.grid(row=2, column=1)
+    button_9.grid(row=2, column=2)
+    button_10.grid(row=3, column=0)
+    button_11.grid(row=3, column=1)
+    button_12.grid(row=3, column=2)
+
+    screend.bind("<Right>", next_widget)
+    screend.bind("<Left>", prev_widget)
+    screend.bind("<Up>", up)
+    screend.bind("<Down>", down)
+    button_1.bind("<Return>", combef0a)
+    button_2.bind("<Return>", combef1a)
+    button_3.bind("<Return>", combef2a)
+    button_4.bind("<Return>", combef3a)
+    button_5.bind("<Return>", combef4a)
+    button_6.bind("<Return>", combef5a)
+    button_7.bind("<Return>", combef6a)
+    button_8.bind("<Return>", combef7a)
+    button_9.bind("<Return>", combef8a)
+    button_10.bind("<Return>", combef9a)
+    button_11.bind("<Return>", combef10a)
+    button_12.bind("<Return>", combef11a)
+
+def domeins2(event):
+    global screend2
+    screend2 = Toplevel(screen)
+    screend2.title("Domeins")
+    screend2.focus_set()
+    global b1
+    global b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b0
+    global button_1, button_2, button_3, button_4, button_5, button_6, button_7, button_8, button_9, button_10, button_11, button_12
+    b0 = "Medicine"
+    b1 = "Engineering"
+    b2 = "Labor protection"
+    b3 = "Management"
+    b4 = "Legislation"
+    b5 = "Public administration"
+    b6 = "Marketing"
+    b7 = "Human Resources"
+    b8 = "Tourism"
+    b9 = "Informatics"
+    b10 = "Sports/Esports"
+    b11 = "Others"
+
+    button_1 = Button(screend2, text=b0, height="5", width="17", command=lambda: [equal(), funct(0),view_q()])
+    button_2 = Button(screend2, text=b1, height="5", width="17", command=lambda: [equal(), funct(1),view_q()])
+    button_3 = Button(screend2, text=b2, height="5", width="17", command=lambda: [equal(), funct(2),view_q()])
+    button_4 = Button(screend2, text=b3, height="5", width="17", command=lambda: [equal(), funct(3),view_q()])
+    button_5 = Button(screend2, text=b4, height="5", width="17", command=lambda: [equal(), funct(4),view_q()])
+    button_6 = Button(screend2, text=b5, height="5", width="17", command=lambda: [equal(), funct(5),view_q()])
+    button_7 = Button(screend2, text=b6, height="5", width="17", command=lambda: [equal(), funct(6),view_q()])
+    button_8 = Button(screend2, text=b7, height="5", width="17", command=lambda: [equal(), funct(7),view_q()])
+    button_9 = Button(screend2, text=b8, height="5", width="17", command=lambda: [equal(), funct(8),view_q()])
+    button_10 = Button(screend2, text=b9, height="5", width="17", command=lambda: [equal(), funct(9),view_q()])
+    button_11 = Button(screend2, text=b10, height="5", width="17", command=lambda: [equal(), funct(10),view_q()])
+    button_12 = Button(screend2, text=b11, height="5", width="17", command=lambda: [equal(), funct(11),view_q()])
+
+    button_1.grid(row=0, column=0)
+    button_2.grid(row=0, column=1)
+    button_3.grid(row=0, column=2)
+    button_4.grid(row=1, column=0)
+    button_5.grid(row=1, column=1)
+    button_6.grid(row=1, column=2)
+    button_7.grid(row=2, column=0)
+    button_8.grid(row=2, column=1)
+    button_9.grid(row=2, column=2)
+    button_10.grid(row=3, column=0)
+    button_11.grid(row=3, column=1)
+    button_12.grid(row=3, column=2)
+
+    screend2.bind("<Right>", next_widget2)
+    screend2.bind("<Left>", prev_widget2)
+    screend2.bind("<Up>", up2)
+    screend2.bind("<Down>", down2)
+    button_1.bind("<Return>", combef0v)
+    button_2.bind("<Return>", combef1v)
+    button_3.bind("<Return>", combef2v)
+    button_4.bind("<Return>", combef3v)
+    button_5.bind("<Return>", combef4v)
+    button_6.bind("<Return>", combef5v)
+    button_7.bind("<Return>", combef6v)
+    button_8.bind("<Return>", combef7v)
+    button_9.bind("<Return>", combef8v)
+    button_10.bind("<Return>", combef9v)
+    button_11.bind("<Return>", combef10v)
+    button_12.bind("<Return>", combef11v)
+
+
+def session():
+    global screen0
+    screen.withdraw()
+    global raw_e
+    raw_e = StringVar()
+    global raw_d
+    raw_d = StringVar()
+    global raw_q
+    raw_q = StringVar()
+    global btn1, btn2, btn3
+    screen0 = Toplevel(screen)
+    screen0.title("Main menu")
+    screen0.geometry("400x250")
+    Label(screen0, text = "Welcome to Q&A").pack()
+    Label(screen0, text="").pack()
+    btn1 = Button(screen0, text = "Ask anything", height = "2", width ="30")
+    btn1.bind("<Return>", domeins)
+    btn1.bind("<Button-1>",domeins)
+    btn1.pack()
+    if A == 1:
+        btn2 = Button(screen0, text = "View/Delete/Reply",height = "2", width ="30")
+        Label(screen0, text="").pack()
+        btn2.bind("<Return>", domeins2)
+        btn2.bind("<Button-1>", domeins2)
+        btn2.pack()
+    else:
+        btn2 = Button(screen0, text="View all questions", height="2", width="30")
+        Label(screen0, text="").pack()
+        btn2.bind("<Return>", domeins2)
+        btn2.bind("<Button-1>", domeins2)
+        btn2.pack()
+
+    Label(screen0, text="").pack()
+    btn3 = Button(screen0, text="Logout", height="2", width="30")
+    btn3.bind("<Return>", combs)
+    btn3.bind("<Button-1>", combs)
+    btn3.pack()
+    screen0.bind("<Down>", focusn1)
+    screen0.bind("<Up>", focusp1)
+
+def focusn1(event):
+    event.widget.tk_focusNext().focus()
+    if screen.focus_get() == btn1:
+        btn2.config(borderwidth = 2, bg = 'SystemButtonFace')
+        btn3.config(borderwidth=2, bg = 'SystemButtonFace')
+        btn1.config(borderwidth = 4, bg = 'cyan')
+    elif screen.focus_get() == btn2:
+        btn2.config(borderwidth = 4, bg = 'cyan')
+        btn3.config(borderwidth=2, bg = 'SystemButtonFace')
+        btn1.config(borderwidth = 2, bg = 'SystemButtonFace')
+    else:
+        btn2.config(borderwidth = 2, bg = 'SystemButtonFace')
+        btn3.config(borderwidth=4, bg = 'cyan')
+        btn1.config(borderwidth = 2, bg = 'SystemButtonFace')
+    return "break"
+
+def focusp1(event):
+    event.widget.tk_focusPrev().focus()
+    if screen.focus_get() == btn1:
+        btn2.config(borderwidth = 2, bg = 'SystemButtonFace')
+        btn3.config(borderwidth=2, bg = 'SystemButtonFace')
+        btn1.config(borderwidth = 4, bg = 'cyan')
+    elif screen.focus_get() == btn2:
+        btn2.config(borderwidth = 4, bg = 'cyan')
+        btn3.config(borderwidth=2, bg = 'SystemButtonFace')
+        btn1.config(borderwidth = 2, bg = 'SystemButtonFace')
+    else:
+        btn2.config(borderwidth = 2, bg = 'SystemButtonFace')
+        btn3.config(borderwidth=4, bg = 'cyan')
+        btn1.config(borderwidth = 2, bg = 'SystemButtonFace')
+    return "break"
+
+def combs(event):
+    screen.deiconify()
+    screen0.destroy()
+
+
+def delete_(x):
+    x.destroy()
+
+def del4(event):
+    screen4.destroy()
+
+def comb23(event):
+    screen2.destroy()
+    screen3.destroy()
+
+def login_sucess():
+    global screen3
+    screen3 = Toplevel(screen)
+    screen3.title("Success")
+    screen3.geometry("250x50")
+    Label(screen3, text = "login successfully", fg="green").pack()
+    btn = Button(screen3, text = "OK", command = lambda:[delete_(screen3), delete_(screen2)])
+    btn.focus_set()
+    btn.pack()
+    screen3.bind("<Return>", comb23)
+    session()
+
+
+def password_not_recognised():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="Wrong password", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def user_not_found():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="User not found", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def num_in(s):
+    return any(i.isdigit() for i in s)
+def low_in(s):
+    return any(i.islower() for i in s)
+def up_in(s):
+    return any(i.isupper() for i in s)
+
+
+def register_user(event):
+    username_info = username.get()
+    password_info = password.get()
+    password2_info = password2.get()
+    name_info = name.get()
+    var1_info = var1.get()
+    var2_info = var2.get()
+    global var
+    var = StringVar()
+    directory = 'Users'
+    filename = username_info
+    file_path = os.path.join(directory, filename)
+    if var1_info == 1:
+        var = "Admin"
+    else:
+            var = "Simple"
+    try:
+        if username_info == "":
+            error()
+        elif password_info != password2_info:
+            error5()
+        elif password_info == "":
+            error()
+        elif len(username_info) <6:
+            error9()
+        elif name_info == "":
+            error()
+        elif num_in(password_info) == False or low_in(password_info) == False or up_in(password_info) == False or len(password_info) < 8:
+            error7()
+        elif var1_info == 0 and var2_info == 0:
+            error3()
+        elif var1_info == 1 and var2_info == 1:
+            error2()
+        else:
+            file = open(file_path, "r")
+            error1()
+    except FileNotFoundError:
+        if not os.path.isdir(directory):
+            os.mkdir(directory)
+        file = open(file_path, "w")
+        file.write(username_info + "\n")
+        file.write(password_info + "\n")
+        file.write(name_info + "\n")
+        file.write(var)
+        file.close()
+        username_entry.delete(0, END)
+        password_entry.delete(0, END)
+        password2_entry.delete(0, END)
+        var1.set(0)
+        var2.set(0)
+        Reg_suc()
+
+def dele(event):
+    screene.destroy()
+
+def combe1(event):
+    screene.destroy()
+    screen1.destroy()
+
+
+def Reg_suc():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Success!")
+    screene.geometry("300x50")
+    Label(screene, text = "Register success!", fg="green").pack()
+    btn = Button(screene, text="OK", command=lambda: [delete_(screene), delete_(screen1)])
+    btn.focus_set()
+    btn.bind("<Return>", combe1)
+    btn.pack()
+
+def error():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text = "Complete all fields", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error7():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x60")
+    Label(screene, text = "Password must contain at least 8 characters," + "\n" +"1 number, 1 uppercase letter and 1 lowercase letter", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error5():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text = "Password don't match", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error10():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="You can't save without completing", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+
+def error6():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text = "Complete fields", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error8():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text = "Select one of the questions before taking action", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error9():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text = "Username too short, need at least 6 characters", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error1():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="User already exists", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error2():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="You can't check both checkboxes", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error3():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="Please select your knowledge level", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def error4():
+    global screene
+    screene = Toplevel(screen)
+    screene.title("Error!")
+    screene.geometry("300x50")
+    Label(screene, text="A question with this title already exists!", fg="red").pack()
+    btn = Button(screene, text="OK", command=lambda: delete_(screene))
+    btn.focus_set()
+    btn.bind("<Return>", dele)
+    btn.pack()
+
+def register(event):
+    global screen1
+    screen1 = Toplevel(screen)
+    screen1.title("Register")
+    screen1.geometry("300x350")
+    global var1
+    global var2
+    global username
+    global password
+    global username_entry
+    global password_entry
+    global password2
+    global password2_entry
+    global name
+    global name_entry
+    name = StringVar()
+    username = StringVar()
+    password = StringVar()
+    password2 =StringVar()
+    Label(screen1, text="Write your details down below").pack()
+    Label(screen1, text="").pack()
+    Label(screen1, text = "Username * ").pack()
+    username_entry = Entry(screen1, textvariable = username, justify = 'center')
+    username_entry.focus_set()
+    username_entry.pack()
+    Label(screen1, text = "First and Last Name *").pack()
+    name_entry = Entry(screen1, textvariable = name, justify = 'center')
+    name_entry.pack()
+    Label(screen1, text = "Password * ").pack()
+    password_entry = Entry(screen1, textvariable = password,  show = "*", justify = 'center')
+    password_entry.pack()
+    Label(screen1, text = "Confirm password * ").pack()
+    password2_entry = Entry(screen1, textvariable = password2,  show = "*", justify = 'center')
+    password2_entry.pack()
+    Label(screen1, text = "").pack()
+    btn = Button(screen1, text = "Register", width = 10, height = 1)
+    btn.bind("<Button-1>", register_user)
+    btn.pack()
+    var1 = IntVar()
+    c1 = Checkbutton(screen1, text="Expert",width = 10, height = 1, variable = var1)
+    c1.pack()
+    var2 = IntVar()
+    c2 = Checkbutton(screen1, text="Elementary",width = 10, height = 1, variable = var2)
+    c2.pack()
+    screen1.bind("<Return>", register_user)
+    screen1.bind("<Escape>", close_window1)
+    screen1.protocol("WM_DELETE_WINDOW", close_window)
+
+def close_window1(event):
+    global running
+    if username_entry.get() != "" or password_entry.get() != "" or password2_entry.get() != "" or name_entry.get() != "":
+        running = False
+        comp()
+    else:
+        delete_(screen1)
+
+def close_window2(event):
+    screen2.destroy()
+
 def login_verify(event):
     global directory
     global A
@@ -25,3 +1145,321 @@ def login_verify(event):
         password_entry1.delete(0, END)
     except PermissionError:
         error6()
+
+
+def login(event):
+    global screen2
+    screen2 = Toplevel(screen)
+    screen2.title("Login")
+    screen2.geometry("300x250")
+    Label(screen2, text="Insert your own login details ").pack()
+    Label(screen2, text="").pack()
+    global username_verify
+    global password_verify
+    username_verify = StringVar()
+    password_verify = StringVar()
+    global username_entry1
+    global password_entry1
+    Label(screen2, text = "Username * ").pack()
+    username_entry1 = Entry(screen2, textvariable = username_verify, justify = 'center')
+    username_entry1.focus_set()
+    username_entry1.pack()
+    Label(screen2,text="").pack()
+    Label(screen2, text = "Password * ").pack()
+    password_entry1 = Entry(screen2, textvariable= password_verify, show = "*", justify = 'center')
+    password_entry1.pack()
+    Label(screen2, text = "").pack()
+    btn = Button(screen2, text = "Login", width = 10, height = 1)
+    btn.bind("<Button-1>", login_verify)
+    screen2.bind("<Return>", login_verify)
+    screen2.bind("<Escape>", close_window2 )
+    btn.pack()
+
+def next_widget(event):
+    button_1.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_2.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_3.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_4.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_5.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_6.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_7.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_8.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_9.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_10.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_11.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_12.config(borderwidth=2, bg = 'SystemButtonFace')
+    event.widget.tk_focusNext().focus()
+    if screend.focus_get() == button_1:
+        button_1.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_2:
+        button_2.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_3:
+        button_3.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_4:
+        button_4.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_5:
+        button_5.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_6:
+        button_6.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_7:
+        button_7.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_8:
+        button_8.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_9:
+        button_9.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_10:
+        button_10.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_11:
+        button_11.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_12:
+        button_12.config(borderwidth=4, bg = 'cyan')
+    return "break"
+
+
+def next_widget2(event):
+    button_1.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_2.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_3.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_4.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_5.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_6.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_7.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_8.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_9.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_10.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_11.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_12.config(borderwidth=2, bg = 'SystemButtonFace')
+    event.widget.tk_focusNext().focus()
+    if screend2.focus_get() == button_1:
+        button_1.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_2:
+        button_2.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_3:
+        button_3.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_4:
+        button_4.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_5:
+        button_5.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_6:
+        button_6.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_7:
+        button_7.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_8:
+        button_8.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_9:
+        button_9.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_10:
+        button_10.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_11:
+        button_11.config(borderwidth=4, bg='cyan')
+    elif screend2.focus_get() == button_12:
+        button_12.config(borderwidth=4, bg='cyan')
+    return "break"
+
+def prev_widget2(event):
+    event.widget.tk_focusPrev().focus()
+    button_1.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_2.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_3.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_4.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_5.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_6.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_7.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_8.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_9.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_10.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_11.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_12.config(borderwidth=2, bg = 'SystemButtonFace')
+    event.widget.tk_focusPrev().focus()
+    if screend2.focus_get() == button_1:
+        button_1.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_2:
+        button_2.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_3:
+        button_3.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_4:
+        button_4.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_5:
+        button_5.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_6:
+        button_6.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_7:
+        button_7.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_8:
+        button_8.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_9:
+        button_9.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_10:
+        button_10.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_11:
+        button_11.config(borderwidth=4, bg = 'cyan')
+    elif screend2.focus_get() == button_12:
+        button_12.config(borderwidth=4, bg = 'cyan')
+    return "break"
+
+def prev_widget(event):
+    event.widget.tk_focusPrev().focus()
+    button_1.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_2.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_3.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_4.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_5.config( borderwidth=2, bg = 'SystemButtonFace')
+    button_6.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_7.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_8.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_9.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_10.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_11.config(borderwidth=2, bg = 'SystemButtonFace')
+    button_12.config(borderwidth=2, bg = 'SystemButtonFace')
+    event.widget.tk_focusPrev().focus()
+    if screend.focus_get() == button_1:
+        button_1.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_2:
+        button_2.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_3:
+        button_3.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_4:
+        button_4.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_5:
+        button_5.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_6:
+        button_6.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_7:
+        button_7.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_8:
+        button_8.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_9:
+        button_9.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_10:
+        button_10.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_11:
+        button_11.config(borderwidth=4, bg = 'cyan')
+    elif screend.focus_get() == button_12:
+        button_12.config(borderwidth=4, bg = 'cyan')
+    return "break"
+
+
+
+# def up_widget(event):
+#     event.widget.tk_focusNext().focus()
+#     event.widget.tk_focusNext().focus()
+#     event.widget.tk_focusNext().focus()
+#     return "break"
+
+def dels(event):
+    screen.destroy()
+
+def terminate():
+    running = False
+    comb2()
+
+def terminate1(event):
+    running = False
+    comb2()
+
+def comb2():
+    global screenec
+    screenec = Toplevel(screen)
+    screenec.title("Error!")
+    screenec.focus_set()
+
+    label_1 = Label(screenec, text="Are you sure that you exit application?", fg="red")
+    button_1 = Button(screenec, text="NO",width = 5, command=lambda: delete_(screenec))
+    button_2 = Button(screenec, text="YES",width = 5, command=lambda: delete_(screen))
+
+    button_1.grid(row=1, column=1)
+    button_2.grid(row=1, column=3)
+    label_1.grid(row=0, column=2)
+    screenec.bind("<Escape>", delec)
+    screenec.bind("<Return>", dels)
+
+
+def close_window():
+    global running
+    if username_entry.get() != "" or password_entry.get() != "" or password2_entry.get() != "" or name_entry.get() != "":
+        running = False
+        comp()
+    else:
+        delete_(screen1)
+
+def combec1(event):
+    screenec.destroy()
+    screen1.destroy()
+
+def delec(event):
+    screenec.destroy()
+
+def comp():
+    global screenec
+    screenec = Toplevel(screen)
+    screenec.title("Error!")
+    screenec.focus_set()
+
+    label_1 = Label(screenec, text="You sure close the window?", fg="red")
+    button_1 = Button(screenec, text="NO", command=lambda: delete_(screenec))
+    button_2 = Button(screenec, text="YES", command=lambda: [delete_(screenec), delete_(screen1)])
+
+    button_1.grid(row=1, column=1)
+    button_2.grid(row=1, column=3)
+    label_1.grid(row=0, column =2)
+
+    screenec.bind("<Escape>", delec)
+    screenec.bind("<Return>", combec1)
+
+
+def focusp(event):
+    event.widget.tk_focusPrev().focus()
+    if screen.focus_get() == button_1:
+        button_2.config(borderwidth = 2,bg = 'SystemButtonFace')
+        button_1.config(borderwidth = 4, bg = 'cyan')
+    else:
+        button_1.config(borderwidth = 2, bg = 'SystemButtonFace')
+        button_2.config(borderwidth = 4, bg = 'cyan')
+    return "break"
+
+def focusn(event):
+    global button_1
+    global button_2
+    event.widget.tk_focusNext().focus()
+    if screen.focus_get() == button_1:
+        button_2.config(borderwidth = 2,bg = 'SystemButtonFace')
+        button_1.config(borderwidth = 4, bg = 'cyan')
+    else:
+        button_1.config(borderwidth = 2, bg = 'SystemButtonFace')
+        button_2.config(borderwidth = 4, bg = 'cyan')
+    return "break"
+
+def main_screen():
+    global a
+    a = []
+    for i in range (0 , 12):
+        a.append(i)
+    for i in range(0, 12):
+        a[i] = 13
+    global screen
+    global button_1
+    global button_2
+    screen = Tk()
+    screen.geometry("300x250")
+    screen.title("Licenta")
+    Label(text = "Welcome", bg = "grey", width = "300", height = "2",  font = ("Calibri", 13)).pack()
+    Label(text = "").pack()
+    button_1 = Button(text = "Login", height = "2", width ="30", highlightbackground= "green", highlightcolor = "red")
+    button_1.focus_set()
+    button_2 = Button(text = "Register", height = "2", width ="30", highlightbackground= "green", highlightcolor = "red")
+    button_1.bind("<Return>", login)
+    button_1.bind("<Button-1>", login)
+    button_1.pack()
+    Label(text="").pack()
+    button_2.bind("<Return>", register)
+    button_2.bind("<Button-1>", register)
+    button_2.pack()
+    screen.bind("<Up>", focusp)
+    screen.bind("<Down>", focusn)
+    screen.bind("<Escape>", terminate1)
+    screen.protocol("WM_DELETE_WINDOW", terminate)
+
+
+    screen.mainloop()
+
+main_screen()
