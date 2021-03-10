@@ -1,0 +1,402 @@
+import requests
+import pprint
+from API import vr
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+API_key = "7c6021a28721316e55523cfacebade8e"
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(595, 406)
+        Dialog.setSizeIncrement(QtCore.QSize(5, 5))
+        Dialog.setAutoFillBackground(False)
+        Dialog.setStyleSheet("background-color: rgb(170, 255, 255);\n"
+"background-color: rgb(206, 206, 206);")
+        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_2.setGeometry(QtCore.QRect(470, 70, 101, 31))
+        self.pushButton_2.setSizeIncrement(QtCore.QSize(5, 5))
+        self.pushButton_2.setStyleSheet("background-color: rgb(204, 204, 204);\n"
+"font: 8pt \"Times New Roman\";")
+        self.pushButton_2.setCheckable(False)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.label = QtWidgets.QLabel(Dialog)
+        self.label.setGeometry(QtCore.QRect(20, 40, 47, 13))
+        self.label.setText("")
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(Dialog)
+        self.label_2.setGeometry(QtCore.QRect(20, 20, 101, 16))
+        self.label_2.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_2.setObjectName("label_2")
+        self.label_4 = QtWidgets.QLabel(Dialog)
+        self.label_4.setGeometry(QtCore.QRect(20, 70, 101, 20))
+        self.label_4.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_4.setObjectName("label_4")
+        self.label_6 = QtWidgets.QLabel(Dialog)
+        self.label_6.setGeometry(QtCore.QRect(50, 190, 47, 13))
+        self.label_6.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_6.setObjectName("label_6")
+        self.textBrowser_3 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_3.setGeometry(QtCore.QRect(20, 210, 111, 31))
+        self.textBrowser_3.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_3.setObjectName("textBrowser_3")
+        self.textBrowser_4 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_4.setGeometry(QtCore.QRect(20, 270, 111, 31))
+        self.textBrowser_4.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_4.setObjectName("textBrowser_4")
+        self.textBrowser_5 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_5.setGeometry(QtCore.QRect(20, 150, 111, 31))
+        self.textBrowser_5.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_5.setObjectName("textBrowser_5")
+        self.textBrowser_6 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_6.setGeometry(QtCore.QRect(20, 90, 111, 31))
+        self.textBrowser_6.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_6.setObjectName("textBrowser_6")
+        self.textBrowser_7 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_7.setGeometry(QtCore.QRect(20, 40, 111, 31))
+        self.textBrowser_7.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_7.setObjectName("textBrowser_7")
+        self.textBrowser_8 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_8.setGeometry(QtCore.QRect(140, 70, 111, 31))
+        self.textBrowser_8.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_8.setObjectName("textBrowser_8")
+        self.label_7 = QtWidgets.QLabel(Dialog)
+        self.label_7.setGeometry(QtCore.QRect(150, 50, 101, 16))
+        self.label_7.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_7.setObjectName("label_7")
+        self.label_8 = QtWidgets.QLabel(Dialog)
+        self.label_8.setGeometry(QtCore.QRect(20, 130, 111, 20))
+        self.label_8.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_8.setObjectName("label_8")
+        self.label_5 = QtWidgets.QLabel(Dialog)
+        self.label_5.setGeometry(QtCore.QRect(50, 250, 51, 20))
+        self.label_5.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_5.setObjectName("label_5")
+        self.textBrowser_9 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_9.setGeometry(QtCore.QRect(20, 330, 111, 31))
+        self.textBrowser_9.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_9.setObjectName("textBrowser_9")
+        self.label_9 = QtWidgets.QLabel(Dialog)
+        self.label_9.setGeometry(QtCore.QRect(50, 310, 61, 20))
+        self.label_9.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_9.setObjectName("label_9")
+        self.textBrowser_10 = QtWidgets.QTextBrowser(Dialog)
+        self.textBrowser_10.setGeometry(QtCore.QRect(280, 70, 111, 31))
+        self.textBrowser_10.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textBrowser_10.setObjectName("textBrowser_10")
+        self.label_10 = QtWidgets.QLabel(Dialog)
+        self.label_10.setGeometry(QtCore.QRect(310, 50, 51, 16))
+        self.label_10.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_10.setObjectName("label_10")
+        self.textEdit = QtWidgets.QTextEdit(Dialog)
+        self.textEdit.setGeometry(QtCore.QRect(470, 220, 113, 31))
+        self.textEdit.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"font: 8pt \"Times New Roman\";")
+        self.textEdit.setObjectName("textEdit")
+        self.pushButton_3 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_3.setGeometry(QtCore.QRect(470, 30, 101, 31))
+        self.pushButton_3.setSizeIncrement(QtCore.QSize(5, 5))
+        self.pushButton_3.setStyleSheet("background-color: rgb(204, 204, 204);\n"
+"font: 8pt \"Times New Roman\";")
+        self.pushButton_3.setCheckable(False)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.textEdit_2 = QtWidgets.QTextEdit(Dialog)
+        self.textEdit_2.setGeometry(QtCore.QRect(470, 270, 113, 31))
+        self.textEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"font: 8pt \"Times New Roman\";")
+        self.textEdit_2.setObjectName("textEdit_2")
+        self.textEdit_3 = QtWidgets.QTextEdit(Dialog)
+        self.textEdit_3.setGeometry(QtCore.QRect(350, 270, 113, 31))
+        self.textEdit_3.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textEdit_3.setObjectName("textEdit_3")
+        self.label_3 = QtWidgets.QLabel(Dialog)
+        self.label_3.setGeometry(QtCore.QRect(510, 200, 51, 20))
+        self.label_3.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_3.setObjectName("label_3")
+        self.label_11 = QtWidgets.QLabel(Dialog)
+        self.label_11.setGeometry(QtCore.QRect(380, 250, 51, 16))
+        self.label_11.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_11.setObjectName("label_11")
+        self.label_12 = QtWidgets.QLabel(Dialog)
+        self.label_12.setGeometry(QtCore.QRect(500, 250, 61, 16))
+        self.label_12.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_12.setObjectName("label_12")
+        self.label_13 = QtWidgets.QLabel(Dialog)
+        self.label_13.setGeometry(QtCore.QRect(510, 300, 51, 20))
+        self.label_13.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.label_13.setObjectName("label_13")
+        self.textEdit_4 = QtWidgets.QTextEdit(Dialog)
+        self.textEdit_4.setGeometry(QtCore.QRect(470, 320, 113, 31))
+        self.textEdit_4.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.textEdit_4.setObjectName("textEdit_4")
+        self.checkBox = QtWidgets.QCheckBox(Dialog)
+        self.checkBox.setGeometry(QtCore.QRect(450, 220, 16, 17))
+        self.checkBox.setText("")
+        self.checkBox.setAutoExclusive(True)
+        self.checkBox.setObjectName("checkBox")
+        self.checkBox.stateChanged.connect(self.Check)
+        self.checkBox_2 = QtWidgets.QCheckBox(Dialog)
+        self.checkBox_2.setGeometry(QtCore.QRect(330, 270, 16, 17))
+        self.checkBox_2.setText("")
+        self.checkBox_2.setAutoExclusive(True)
+        self.checkBox_2.setObjectName("checkBox_2")
+        self.checkBox_2.stateChanged.connect(self.Check)
+        self.checkBox_3 = QtWidgets.QCheckBox(Dialog)
+        self.checkBox_3.setGeometry(QtCore.QRect(450, 320, 16, 17))
+        self.checkBox_3.setText("")
+        self.checkBox_3.setAutoExclusive(True)
+        self.checkBox_3.setObjectName("checkBox_3")
+        self.checkBox_3.stateChanged.connect(self.Check)
+        self.pushButton_2.raise_()
+        self.label.raise_()
+        self.label_2.raise_()
+        self.label_4.raise_()
+        self.label_6.raise_()
+        self.textBrowser_3.raise_()
+        self.textBrowser_4.raise_()
+        self.textBrowser_5.raise_()
+        self.textBrowser_6.raise_()
+        self.textBrowser_7.raise_()
+        self.textBrowser_8.raise_()
+        self.label_7.raise_()
+        self.label_8.raise_()
+        self.textBrowser_9.raise_()
+        self.label_9.raise_()
+        self.label_10.raise_()
+        self.textEdit.raise_()
+        self.pushButton_3.raise_()
+        self.textEdit_2.raise_()
+        self.textEdit_3.raise_()
+        self.label_3.raise_()
+        self.label_11.raise_()
+        self.label_12.raise_()
+        self.label_13.raise_()
+        self.textEdit_4.raise_()
+        self.checkBox.raise_()
+        self.checkBox_2.raise_()
+        self.checkBox_3.raise_()
+        self.label_5.raise_()
+        self.textBrowser_10.raise_()
+
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Wheater", "Wheater"))
+        self.pushButton_2.setText(_translate("Dialog", "Search"))
+        self.pushButton_2.clicked.connect(self.Check)
+        self.label_2.setText(_translate("Dialog", "Temperatura Minima"))
+        self.label_4.setText(_translate("Dialog", "Temperatura Maxima"))
+        self.label_6.setText(_translate("Dialog", "Vizibilitate"))
+        self.label_7.setText(_translate("Dialog", "Temperatura °C "))
+        self.label_8.setText(_translate("Dialog", "Temperatura Resimtita"))
+        self.label_5.setText(_translate("Dialog", "Umiditate"))
+        self.label_9.setText(_translate("Dialog", "Presiune"))
+        self.label_10.setText(_translate("Dialog", "Descriere"))
+        self.pushButton_3.setText(_translate("Dialog", "Auto-detect search"))
+#        if self.checkBox = True
+#            self.pushButton_3.setText(_translate("Dialog", "Auto-detect search"))
+        self.pushButton_3.clicked.connect(self.PressAutoDet)
+        self.label_3.setText(_translate("Dialog", "Orasul"))
+        self.label_11.setText(_translate("Dialog", "latitudine"))
+        self.label_12.setText(_translate("Dialog", "longitudine"))
+        self.label_13.setText(_translate("Dialog", "Zip - code"))
+      #    import test_rc
+
+    def Check(self):
+        if self.checkBox.isChecked():
+            self.pushButton_2.clicked.connect(self.City)
+        elif self.checkBox_2.isChecked():
+            self.pushButton_2.clicked.connect(self.latlong)
+        elif self.checkBox_3.isChecked():
+            self.pushButton_2.clicked.connect(self.Searchzip)
+
+
+    def latlong(self):
+        try:
+            lat = self.textEdit_2.toPlainText()
+            long = self.textEdit_3.toPlainText()
+            url_ll = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={long}&appid={API_key}"
+            headers = {}
+            response_ll = requests.request("GET", url_ll, headers=headers)
+            llresponse = response_ll.json()
+            ll_min = llresponse['main']['temp_min'] - 273
+            ll_min2 = str("%.1f" % t_min)
+            self.textBrowser_7.setText(t_min2)
+            ll_max = llresponse['main']['temp_max'] - 273
+            ll_max2 = str("%.1f" % t_max)
+            self.textBrowser_6.setText(t_max2)
+            t_ = llresponse['main']['temp'] - 273
+            t_2 = str("%.1f" % t_)
+            self.textBrowser_8.setText(t_2)
+            t_r = llresponse['main']['feels_like'] - 273
+            t_r2 = str("%.1f" % t_r)
+            self.textBrowser_5.setText(t_r2)
+            viz = llresponse['visibility'] / 1000
+            viz2 = str("%.1f" % viz)
+            self.textBrowser_3.setText(viz2)
+            hum = llresponse['main']['humidity']
+            hum2 = str("%.0f" % hum)
+            self.textBrowser_4.setText(hum2)
+            pres = llresponse['main']['pressure']
+            pres2 = str("%.0f" % pres)
+            self.textBrowser_9.setText(pres2)
+            lldesc = llresponse['weather'][0]['description']
+            self.textBrowser_10.setText(lldesc)
+        except KeyError:
+            print("eroare")
+
+    def Show(self):
+        headers = {}
+        response = requests.request("GET", url, headers=headers)
+        iresponse = response.json()
+        t_min = iresponse['main']['temp_min'] - 273
+        t_min2 = str("%.1f" % t_min)
+        self.textBrowser_7.setText(t_min2)
+        t_max = iresponse['main']['temp_max'] - 273
+        t_max2 = str("%.1f" % t_max)
+        self.textBrowser_6.setText(t_max2)
+        t_ = iresponse['main']['temp'] - 273
+        t_2 = str("%.1f" % t_)
+        self.textBrowser_8.setText(t_2)
+        t_r = iresponse['main']['feels_like'] - 273
+        t_r2 = str("%.1f" % t_r)
+        self.textBrowser_5.setText(t_r2)
+        viz = iresponse['visibility'] / 1000
+        viz2 = str("%.1f" % viz)
+        self.textBrowser_3.setText(viz2)
+        hum = iresponse['main']['humidity']
+        hum2 = str("%.0f" % hum)
+        self.textBrowser_4.setText(hum2)
+        pres = iresponse['main']['pressure']
+        pres2 = str("%.0f" % pres)
+        self.textBrowser_9.setText(pres2)
+
+    def City(self):
+        try:
+            city_name = self.textEdit.toPlainText()
+            url_city = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_key}"
+            headers = {}
+            response_city = requests.request("GET", url_city, headers=headers)
+            cresponse = response_city.json()
+            t_min = cresponse['main']['temp_min'] - 273
+            t_min2 = str("%.1f" % t_min)
+            self.textBrowser_7.setText(t_min2)
+            t_max = cresponse['main']['temp_max'] - 273
+            t_max2 = str("%.1f" % t_max)
+            self.textBrowser_6.setText(t_max2)
+            t_ = cresponse['main']['temp'] - 273
+            t_2 = str("%.1f" % t_)
+            self.textBrowser_8.setText(t_2)
+            t_r = cresponse['main']['feels_like'] - 273
+            t_r2 = str("%.1f" % t_r)
+            self.textBrowser_5.setText(t_r2)
+            viz = cresponse['visibility'] / 1000
+            viz2 = str("%.1f" % viz)
+            self.textBrowser_3.setText(viz2)
+            hum = cresponse['main']['humidity']
+            hum2 = str("%.0f" % hum)
+            self.textBrowser_4.setText(hum2)
+            pres = cresponse['main']['pressure']
+            pres2 = str("%.0f" % pres)
+            self.textBrowser_9.setText(pres2)
+            cdesc = cresponse['weather'][0]['description']
+            self.textBrowser_10.setText(cdesc)
+        except KeyError:
+            print("eroare")
+
+    def Searchzip(self):
+        try:
+            zip_code = self.textEdit_4.toPlainText()
+            url_zip = f"http://api.openweathermap.org/data/2.5/weather?zip={zip_code}&appid={API_key}"
+            headers = {}
+            response_zip = requests.request("GET", url_zip, headers=headers)
+            zresponse = response_zip.json()
+            t_min = zresponse['main']['temp_min'] - 273
+            t_min2 = str("%.1f" % t_min)
+            self.textBrowser_7.setText(t_min2)
+            t_max = zresponse['main']['temp_max'] - 273
+            t_max2 = str("%.1f" % t_max)
+            self.textBrowser_6.setText(t_max2)
+            t_ = zresponse['main']['temp'] - 273
+            t_2 = str("%.1f" % t_)
+            self.textBrowser_8.setText(t_2)
+            t_r = zresponse['main']['feels_like'] - 273
+            t_r2 = str("%.1f" % t_r)
+            self.textBrowser_5.setText(t_r2)
+            viz = zresponse['visibility'] / 1000
+            viz2 = str("%.1f" % viz)
+            self.textBrowser_3.setText(viz2)
+            hum = zresponse['main']['humidity']
+            hum2 = str("%.0f" % hum)
+            self.textBrowser_4.setText(hum2)
+            pres = zresponse['main']['pressure']
+            pres2 = str("%.0f" % pres)
+            self.textBrowser_9.setText(pres2)
+            zdesc = zresponse['weather'][0]['description']
+            self.textBrowser_10.setText(zdesc)
+        except KeyError:
+            print("eroare")
+
+
+    def PressAutoDet(self):
+        IP_location = vr()
+        city = IP_location['city']
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_key}"
+        headers = {}
+        response = requests.request("GET", url, headers=headers)
+        iresponse = response.json()
+        t_min = iresponse['main']['temp_min'] - 273
+        t_min2 = str("%.1f" % t_min)
+        self.textBrowser_7.setText(t_min2)
+        t_max = iresponse['main']['temp_max'] - 273
+        t_max2 = str("%.1f" % t_max)
+        self.textBrowser_6.setText(t_max2)
+        t_ = iresponse['main']['temp'] - 273
+        t_2 = str("%.1f" % t_)
+        self.textBrowser_8.setText(t_2)
+        t_r = iresponse['main']['feels_like'] - 273
+        t_r2 = str("%.1f" % t_r)
+        self.textBrowser_5.setText(t_r2)
+        viz = iresponse['visibility'] / 1000
+        viz2 = str("%.1f" % viz)
+        self.textBrowser_3.setText(viz2)
+        hum = iresponse['main']['humidity']
+        hum2 = str("%.0f" % hum)
+        self.textBrowser_4.setText(hum2)
+        pres = iresponse['main']['pressure']
+        pres2 = str("%.0f" % pres)
+        self.textBrowser_9.setText(pres2)
+        desc = iresponse['weather'][0]['description']
+        self.textBrowser_10.setText(desc)
+
+
+
+
+    def temp_min(self):
+        t_min = iresponse['main']['temp_min'] - 273
+        t_min2 = str(t_min)
+        print(t_min)
+        #self.textBrowser_7.setText(t_min2)
+
+
+if __name__ == "__main__":
+    import sys
+
+    sys._excepthook = sys.excepthook
+
+
+    def exception_hook(exctype, value, traceback):
+        print(exctype, value, traceback)
+        sys._excepthook(exctype, value, traceback)
+        sys.exit(1)
+
+
+    sys.excepthook = exception_hook
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())
